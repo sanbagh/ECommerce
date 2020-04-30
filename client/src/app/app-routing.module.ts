@@ -5,12 +5,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'not-found', component: NotFoundComponent },
-  { path: 'server-error', component: ServerErrorComponent },
-  { path: '', component: HomeComponent },
-  { path: 'shop', loadChildren: () => import('./shop/shop.module').then( mod => mod.ShopModule) },
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+  { path: '', component: HomeComponent , data: { breadcrumb: 'Home'}},
+  { path: 'not-found', component: NotFoundComponent, data: { breadcrumb: 'NotFound'}},
+  { path: 'server-error', component: ServerErrorComponent, data: { breadcrumb: 'Server Error'} },
+  { path: 'shop', loadChildren: () => import('./shop/shop.module').then( mod => mod.ShopModule), data: { breadcrumb: 'Shop'} },
+  { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];
 
 @NgModule({
