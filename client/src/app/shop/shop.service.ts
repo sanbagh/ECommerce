@@ -7,12 +7,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPagination } from '../shared/models/pagination';
 import { ShopParams } from '../shared/models/shopParams';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShopService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
   constructor(private client: HttpClient) {}
   getProducts(shopParams: ShopParams): Observable<IPagination> {
     let params = new HttpParams();
