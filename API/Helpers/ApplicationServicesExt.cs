@@ -2,6 +2,7 @@ using System.Linq;
 using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ namespace API.Helpers
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddScoped<IToken, TokenService>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepo, BasketRepo>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

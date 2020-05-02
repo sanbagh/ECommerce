@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using API;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +22,9 @@ public static class MigrationManager
                 var dbContext = services.GetRequiredService<StoreContext>();
                 await dbContext.Database.MigrateAsync();
                 await SeedManager.SeedDataBaseAsync(dbContext, services.GetRequiredService<ILogger<SeedManager>>());
+                var userDbContext = services.GetRequiredService<AppUserDbContext>();
+                await userDbContext.Database.MigrateAsync();
+                await AppUserDbContextSeed.SeedUserDataAsync(services.GetRequiredService<UserManager<AppUser>>());
             }
             catch (Exception ex)
             {
