@@ -76,7 +76,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             var user = await _userManager.FindByEmailAsync(registerDto.Email);
-            if (user != null) return BadRequest(new ApiResponse(400, "User with this email is already registerd."));
+            if (user != null) return new BadRequestObjectResult(new ApiValidationError { Errors = new[] { "User with this email is already registerd." } });
             var newUser = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
@@ -84,7 +84,7 @@ namespace API.Controllers
                 UserName = registerDto.Email,
             };
             var result = await _userManager.CreateAsync(newUser, registerDto.Password);
-            if (!result.Succeeded) return BadRequest(new ApiResponse(400));
+            if (!result.Succeeded) return new BadRequestObjectResult(new ApiResponse(400));
             return new UserDto
             {
                 DisplayName = registerDto.DisplayName,
