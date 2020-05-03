@@ -44,5 +44,21 @@ namespace Infrastructure.Data
         {
             return QueryBuilder<T>.GetQuery(_entities.AsQueryable(), spec);
         }
+
+        public void Add(T entity)
+        {
+            _entities.Add(entity);
+        }
+
+        public void Update(T entity)
+        {
+            _entities.Attach(entity);
+            _context.Entry<T>(entity).State = EntityState.Modified;
+        }
+
+        public void Delete(T entity)
+        {
+            _entities.Remove(entity);
+        }
     }
 }

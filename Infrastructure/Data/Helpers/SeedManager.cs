@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.OrderAggregate;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ public class SeedManager
             await ActualSeedAsync<ProductType>(dbContext, "../Infrastructure/Data/SeedData/types.json");
             await ActualSeedAsync<ProductBrand>(dbContext, "../Infrastructure/Data/SeedData/brands.json");
             await ActualSeedAsync<Product>(dbContext, "../Infrastructure/Data/SeedData/products.json");
+            await ActualSeedAsync<DeliveryMethod>(dbContext, "../Infrastructure/Data/SeedData/delivery.json");
         }
         catch (Exception ex)
         {
@@ -32,10 +34,10 @@ public class SeedManager
         if (!await entities.AnyAsync())
         {
             string data = File.ReadAllText(fileName);
-            var brands = JsonSerializer.Deserialize<List<T>>(data);
-            foreach (var brand in brands)
+            var d_Data = JsonSerializer.Deserialize<List<T>>(data);
+            foreach (var obj in d_Data)
             {
-                entities.Add(brand);
+                entities.Add(obj);
             }
             await dbContext.SaveChangesAsync();
         }
