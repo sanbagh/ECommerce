@@ -1,1 +1,23 @@
-<p>checkout works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <app-stepper [linearModeSelected] = "false" #appstepper>
+                <cdk-step [label] ="'Adress'">
+                    Step 1
+                </cdk-step>
+                <cdk-step [label] ="'Delivery'">
+                    Step 2
+                </cdk-step>
+                <cdk-step [label] ="'Review'">
+                    Step 3
+                </cdk-step>
+                <cdk-step [label] ="'Paymeny'">
+                    Step 4
+                </cdk-step>
+            </app-stepper>
+        </div>
+        <div class="col-4">
+            <app-order-totals []> </app-order-totals>
+        </div>
+    </div>
+</div>
