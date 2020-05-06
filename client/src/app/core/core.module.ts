@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,8 +9,13 @@ import { ServerErrorComponent } from './server-error/server-error.component';
 import { SectionHeaderComponent } from './section-header/section-header.component';
 
 @NgModule({
-  declarations: [NavBarComponent, NotFoundComponent, ServerErrorComponent, SectionHeaderComponent],
-  imports: [CommonModule, RouterModule, BreadcrumbModule],
-  exports: [NavBarComponent, SectionHeaderComponent]
+  declarations: [
+    NavBarComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
+    SectionHeaderComponent,
+  ],
+  imports: [CommonModule, RouterModule, BreadcrumbModule, SharedModule],
+  exports: [NavBarComponent, SectionHeaderComponent],
 })
 export class CoreModule {}

@@ -89,7 +89,7 @@ namespace API.Controllers
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
-                Token = _token.CreateToken(user)
+                Token = _token.CreateToken(newUser)
             };
         }
     }

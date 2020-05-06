@@ -10,8 +10,8 @@ namespace API.DTO
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        [RegularExpression("(?= ^.{6, 10}$)(?=.*\\d)(?=.*[a - z])(?=.*[A - Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\\s).*$", 
-        ErrorMessage = "Password must have 1 upper, 1 lower, 1 number, 1 non alhanumeric and  at least 6 characters")]
+        [RegularExpression("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", 
+        ErrorMessage = "Password must have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character")]
         public string Password { get; set; }
     }
 }
