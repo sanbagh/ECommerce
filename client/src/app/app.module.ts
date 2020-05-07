@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpinnerInterceptor } from './core/interceptor/spinner.interceptor';
+import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +30,8 @@ import { SpinnerInterceptor } from './core/interceptor/spinner.interceptor';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
 })

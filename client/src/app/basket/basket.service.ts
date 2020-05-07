@@ -1,3 +1,4 @@
+import { IDeliveryMethod } from './../shared/models/IDeliveryMethod';
 import { IBasketItem } from './../shared/models/basket-item';
 import { IProduct } from 'src/app/shared/models/product';
 import { Basket, IBasket, IBasketTotal } from './../shared/models/basket';
@@ -17,7 +18,11 @@ export class BasketService {
   private subjectTotal = new BehaviorSubject(null);
   basketTotal$ = this.subjectTotal.asObservable();
   constructor(private client: HttpClient) {}
-
+  shippingCharge = 0;
+  setShippingCharge(method: IDeliveryMethod) {
+    this.shippingCharge = method.price;
+    this.calculateTotal();
+  }
   getBasket(id: string) {
     return this.client.get<IBasket>(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket) => {
@@ -90,11 +95,14 @@ export class BasketService {
       this.removeBasket(basket.id);
     }
   }
+  removeLocalBasket() {
+    this.subject.next(null);
+    this.subjectTotal.next(null);
+    localStorage.removeItem('bskid');
+  }
   removeBasket(id: string) {
     this.client.delete(this.baseUrl + 'basket?id=' + id).subscribe( () => {
-      this.subject.next(null);
-      this.subjectTotal.next(null);
-      localStorage.removeItem('bskid');
+     this.removeLocalBasket();
     });
   }
   getCurrentValue() {
@@ -109,7 +117,7 @@ export class BasketService {
       (pre, cur) => cur.price * cur.quantity + pre,
       0
     );
-    const shippingCharge = 0;
+    const shippingCharge = this.shippingCharge;
     const total = shippingCharge + subtotal;
     this.subjectTotal.next({ shippingCharge, subtotal, total });
   }

@@ -1,3 +1,4 @@
+import { IAddress } from './../shared/models/address';
 import { IUser } from './../shared/models/user';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -57,5 +58,11 @@ export class AccountService {
   }
   checkEmailExists(email: string) {
     return this.client.get(this.baseUrl + 'account/emailexists?email=' + email);
+  }
+  getAddress() {
+    return this.client.get<IAddress>(this.baseUrl + 'account/address');
+  }
+  updateAddress(address: IAddress) {
+    return this.client.put<IAddress>(this.baseUrl + 'account/address', address);
   }
 }
