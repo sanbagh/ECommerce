@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="row" *ngIf="(basketTotal$ |async) as basketTotal">
-        <div *ngIf="basketTotal.total >0">
+    <div class="row" *ngIf="totals">
+        <div *ngIf="totals.total >0">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -17,15 +17,15 @@
                         </tr>
                         <tr>
                             <td>Shipping Charges</td>
-                            <td style="text-align: center;">{{basketTotal.shippingCharge |currency}}</td>
+                            <td style="text-align: center;">{{totals.shippingCharge |currency}}</td>
                         </tr>
                         <tr>
                             <td>Sub Total</td>
-                            <td style="text-align: center;">{{basketTotal.subtotal |currency}}</td>
+                            <td style="text-align: center;">{{totals.subtotal |currency}}</td>
                         </tr>
                         <tr>
                             <td>Total</td>
-                            <td style="text-align: center;"><strong>{{basketTotal.total |currency}}</strong></td>
+                            <td style="text-align: center;"><strong>{{totals.total |currency}}</strong></td>
                         </tr>
                     </tbody>
                 </table>

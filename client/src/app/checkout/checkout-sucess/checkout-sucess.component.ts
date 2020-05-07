@@ -10,14 +10,15 @@ import { Component, OnInit } from '@angular/core';
 export class CheckoutSucessComponent implements OnInit {
   order: IOrderToReturn;
 
-  constructor(private router: Router) { }
-
-  ngOnInit() {
+  constructor(private router: Router) {
     const url = this.router.getCurrentNavigation();
     const state = url && url.extras && url.extras.state;
     if (state) {
       this.order  = state as IOrderToReturn;
     }
+  }
+
+  ngOnInit() {
   }
 
 }

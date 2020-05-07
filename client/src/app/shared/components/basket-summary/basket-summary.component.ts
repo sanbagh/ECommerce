@@ -11,6 +11,8 @@ import { IBasket } from '../../models/basket';
 })
 export class BasketSummaryComponent implements OnInit {
   $basket: Observable<IBasket>;
+  @Input() isOrder = false;
+  @Input() items: any[];
   @Input() isBasket  = true;
   @Output() increment = new EventEmitter<IBasketItem>();
   @Output() decrement = new EventEmitter<IBasketItem>();

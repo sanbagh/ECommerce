@@ -1,3 +1,4 @@
+import { IOrderToReturn } from './../../shared/models/order';
 import { Router, NavigationExtras } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CheckoutService } from './../checkout.service';
@@ -30,11 +31,11 @@ export class CheckoutPaymentComponent implements OnInit {
       shippingAddress: this.checkOutForm.get('addressForm').value
     };
     this.checkoutService.createOrder(order).subscribe(
-      (x) => {
+      (x: IOrderToReturn) => {
         this.toastr.success('Order Placed Successfully');
         this.basketService.removeLocalBasket();
         const extra: NavigationExtras = {state: x};
-        this.router.navigate(['checkout/success'], extra);
+        this.router.navigateByUrl('checkout/success', extra);
       },
       (err) => this.toastr.error(err.message)
     );

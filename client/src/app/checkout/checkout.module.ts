@@ -12,7 +12,8 @@ import { CheckoutSucessComponent } from './checkout-sucess/checkout-sucess.compo
 
 
 @NgModule({
-  declarations: [CheckoutComponent, CheckoutAddressComponent, CheckoutDeliveryComponent, CheckoutReviewComponent, CheckoutPaymentComponent, CheckoutSucessComponent],
+  declarations: [CheckoutComponent, CheckoutAddressComponent,
+    CheckoutDeliveryComponent, CheckoutReviewComponent, CheckoutPaymentComponent, CheckoutSucessComponent],
   imports: [
     CommonModule,
     SharedModule,
