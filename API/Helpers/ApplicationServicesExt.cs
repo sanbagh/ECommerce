@@ -14,6 +14,7 @@ namespace API.Helpers
         {
             services.AddScoped<IToken, TokenService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepo, BasketRepo>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

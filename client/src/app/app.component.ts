@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
     const id = localStorage.getItem('bskid');
     if (id) {
       this.service.getBasket(id).subscribe(() => {
-        console.log('basket initalized');
       }, (err) => console.log(err));
     }
   }
