@@ -3,7 +3,7 @@ import { IType } from './../shared/models/productTypes';
 import { IBrands } from './../shared/models/brands';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IPagination } from '../shared/models/pagination';
 import { ShopParams } from '../shared/models/shopParams';
@@ -14,6 +14,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ShopService {
   baseUrl = environment.apiUrl;
+  products: IProduct[] = [];
+  brands: IBrands[] = [];
+  types: IType[] = [];
   constructor(private client: HttpClient) {}
   getProducts(shopParams: ShopParams): Observable<IPagination> {
     let params = new HttpParams();
@@ -38,17 +41,28 @@ export class ShopService {
       })
       .pipe(
         map((response) => {
+          this.products = response.body.data;
           return response.body;
         })
       );
   }
   getProduct(id: number) {
+    const product = this.products.find(x => x.id === id);
+    if (product) {
+      return of(product);
+    }
     return this.client.get<IProduct>(this.baseUrl + 'products/' + id);
   }
   getBrands(): Observable<IBrands[]> {
-    return this.client.get<IBrands[]>(this.baseUrl + 'products/brands');
+    if (this.brands.length > 0 ) {
+      return of(this.brands);
+    }
+    return this.client.get<IBrands[]>(this.baseUrl + 'products/brands').pipe(map((response) => this.brands = response));
   }
   getTypes(): Observable<IType[]> {
-    return this.client.get<IType[]>(this.baseUrl + 'products/types');
+    if (this.types.length > 0 ) {
+      return of(this.types);
+    }
+    return this.client.get<IType[]>(this.baseUrl + 'products/types').pipe(map((response) => this.types = response));
   }
 }

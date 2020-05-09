@@ -27,9 +27,9 @@ namespace API.Controllers
             _repoBrands = repoBrands;
             _repoTypes = repoTypes;
         }
-
+        [Cache(600)]
         [HttpGet]
-        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProductsAsync([FromQuery]ProductSpecParam productSpecParam)
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProductsAsync([FromQuery] ProductSpecParam productSpecParam)
         {
             ProductsWithBrandsAndTypesSpec spec = new ProductsWithBrandsAndTypesSpec(productSpecParam);
             ProuductsWithFilterCountSpec countProductsAfterFilter = new ProuductsWithFilterCountSpec(productSpecParam);
@@ -38,7 +38,7 @@ namespace API.Controllers
             Pagination<ProductToReturnDto> pagination = new Pagination<ProductToReturnDto>(productSpecParam.PageSize, productSpecParam.PageIndex, count, productDto);
             return Ok(pagination);
         }
-
+        [Cache(600)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -49,12 +49,13 @@ namespace API.Controllers
             if (product == null) return NotFound(new ApiResponse(404));
             return product;
         }
-
+        [Cache(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrands()
         {
             return Ok(await _repoBrands.GetAllAsync());
         }
+        [Cache(600)]
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetTypes()
         {
