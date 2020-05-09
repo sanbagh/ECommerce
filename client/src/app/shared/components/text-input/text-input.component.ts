@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Self, Input } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef, Self, Input, Optional, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-text-input',
@@ -13,7 +13,9 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   @Input() label: string;
   disabled: boolean;
   constructor(@Self() public controlDir: NgControl ) {
+    if (this.controlDir !== null) {
     this.controlDir.valueAccessor = this;
+    }
   }
 
   writeValue(obj: any): void {
@@ -32,10 +34,14 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   onTouched() {}
 
   ngOnInit() {
+    if (this.controlDir !== null) {
     const control = this.controlDir.control;
-    control.setValidators(control.validator ? [control.validator] : []);
-    control.setAsyncValidators(control.asyncValidator ? [control.asyncValidator] : []);
-    control.updateValueAndValidity();
+    if (control !== null) {
+      control.setValidators(control.validator ? [control.validator] : []);
+      control.setAsyncValidators(control.asyncValidator ? [control.asyncValidator] : []);
+      control.updateValueAndValidity();
+    }
+    }
   }
 
 }

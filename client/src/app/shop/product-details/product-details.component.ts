@@ -41,7 +41,7 @@ export class ProductDetailsComponent implements OnInit {
      this.bservice.incrementQuantity(this.product.id);
      this.updateQuantity();
   }
-  decrementQuantity(item: IBasketItem) {
+  decrementQuantity() {
     this.bservice.decrementQuantity(this.product.id);
     this.updateQuantity();
   }
