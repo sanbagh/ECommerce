@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
@@ -17,10 +18,11 @@ public class SeedManager
     {
         try
         {
-            await ActualSeedAsync<ProductType>(dbContext, "../Infrastructure/Data/SeedData/types.json");
-            await ActualSeedAsync<ProductBrand>(dbContext, "../Infrastructure/Data/SeedData/brands.json");
-            await ActualSeedAsync<Product>(dbContext, "../Infrastructure/Data/SeedData/products.json");
-            await ActualSeedAsync<DeliveryMethod>(dbContext, "../Infrastructure/Data/SeedData/delivery.json");
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            await ActualSeedAsync<ProductType>(dbContext, path + @"/Data/SeedData/types_sqlserver.json");
+            await ActualSeedAsync<ProductBrand>(dbContext, path + @"/Data/SeedData/brands_sqlserver.json");
+            await ActualSeedAsync<Product>(dbContext, path + @"/Data/SeedData/products.json");
+            await ActualSeedAsync<DeliveryMethod>(dbContext, path + @"/Data/SeedData/delivery_sqlserver.json");
         }
         catch (Exception ex)
         {

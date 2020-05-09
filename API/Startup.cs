@@ -27,8 +27,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<StoreContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<AppUserDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("IdentityConnection")));
+
             services.AddServices();
             services.AddIdentityServices(Configuration);
             services.AddSingleton<IConnectionMultiplexer>(c =>
@@ -43,7 +42,18 @@ namespace API
                 policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
             }));
         }
-
+        public void ConfigureDevelopementServices(IServiceCollection services)
+        {
+            services.AddDbContext<StoreContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppUserDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("IdentityConnection")));
+            ConfigureServices(services);
+        }
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<AppUserDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            ConfigureServices(services);
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -69,7 +79,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToController("Index", "FallBack"); 
+                endpoints.MapFallbackToController("Index", "FallBack");
             });
         }
     }

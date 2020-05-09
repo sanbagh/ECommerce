@@ -7,6 +7,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Stripe;
 
@@ -16,10 +17,11 @@ namespace API.Controllers
     {
         private readonly IPaymentService _paymentService;
         private readonly IMapper _mapper;
-        private static readonly string _whSecret = "whsec_8OfbglBkSWkMEBsPJiHoNeIHIiTwj5hu";
+        private readonly string _whSecret;
         private readonly ILogger<IPaymentService> _logger;
-        public PaymentController(IPaymentService paymentService, IMapper mapper, ILogger<IPaymentService> logger)
+        public PaymentController(IPaymentService paymentService, IMapper mapper, ILogger<IPaymentService> logger, IConfiguration config)
         {
+            _whSecret =  config.GetSection("Stripe:WhSecret").Value;
             _logger = logger;
             _mapper = mapper;
             _paymentService = paymentService;
