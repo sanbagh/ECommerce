@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
 using Core.OrderAggregate;
+using Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.Extensions.Configuration;
 using Stripe;
@@ -61,6 +62,28 @@ namespace Infrastructure.Services
             }
             await _bsktRepo.CreateOrUpdateBasketAsync(basket);
             return basket;
+        }
+        public async Task<Core.OrderAggregate.Order> UpdateOrderPayementSucceeded(string paymentIntentId)
+        {
+            return await UpdateOrder(paymentIntentId, OrderStatus.PaymentReceived);
+        }
+        public async Task<Core.OrderAggregate.Order> UpdateOrderPayementFailed(string paymentIntentId)
+        {
+            return await UpdateOrder(paymentIntentId, OrderStatus.PaymentFailed);
+        }
+        private async Task<Core.OrderAggregate.Order> UpdateOrder(string paymentIntentId, OrderStatus status)
+        {
+            var spec = new OrderWithPaymentIntentIdSpec(paymentIntentId);
+            var result = await _uow.Repository<Core.OrderAggregate.Order>().GetEntityBySpecAsync(spec);
+            if (result == null) return null;
+            result.OrderStatus = status;
+            _uow.Repository<Core.OrderAggregate.Order>().Update(result);
+            int count = await _uow.Complete();
+            if (count > 0)
+            {
+                return result;
+            }
+            return null;
         }
     }
 }

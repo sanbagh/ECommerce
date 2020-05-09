@@ -10,13 +10,14 @@ namespace Core.OrderAggregate
         {
         }
 
-        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, decimal subTotal, Address shippingAddress, DeliveryMethod deliveryMethod)
+        public Order(IReadOnlyList<OrderItem> orderItems, string buyerEmail, decimal subTotal, Address shippingAddress, DeliveryMethod deliveryMethod, string paymentIntentId)
         {
             this.BuyerEmail = buyerEmail;
             this.SubTotal = subTotal;
             this.ShippingAddress = shippingAddress;
             this.DeliveryMethod = deliveryMethod;
             this.OrderedItems = orderItems;
+            this.PaymentIntentId = paymentIntentId;
         }
         public string BuyerEmail { get; set; }
         public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.Now;

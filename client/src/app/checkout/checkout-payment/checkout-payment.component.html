@@ -20,6 +20,10 @@
 <div class="d-flex justify-content-between mb-3">
     <button class="btn btn-outline-primary" cdkStepperPrevious><i class="fa fa-angle-left mr-2"></i>Back to
         review</button>
-    <button (click)="submitOrder()" class="btn btn-success text-white"><i class="fa fa-angle-right mr-2"></i>Submit
-        Order</button>
+    <button
+        [disabled]="loading || checkOutForm.get('paymentForm').invalid || !cardNumberValid || !cardExpiryValid ||!cardCvcValid"
+        (click)="submitOrder()" class="btn btn-success text-white"><i class="fa fa-angle-right mr-2"></i>Submit
+        Order
+        <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+    </button>
 </div>
